@@ -1,0 +1,16 @@
+.root {
+    padding-top: 90px;
+}
+
+.title {
+    text-align: center;
+}
+
+.formGroup {
+    width: clamp(320px, 50%, 100vw);
+    margin: auto;
+}
+
+.field {
+    margin-top: 20px;
+}
