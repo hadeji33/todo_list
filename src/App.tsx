@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header } from './components/header/component';
-import { LoginForm } from './components/loginForm/component';
+import { LongFormContainer } from './components/loginForm/container';
 import Container from "@mui/material/Container"
 
 function App() {
@@ -8,9 +8,8 @@ function App() {
     <div className="App">
       <Header />
       <Container>
-        <LoginForm/>
+        <LongFormContainer/>
       </Container>
-      
     </div>
   );
 }

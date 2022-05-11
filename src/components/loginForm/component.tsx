@@ -1,14 +1,21 @@
 import React, { useState } from "react";
+import { Buffer } from "buffer";
+import { useDispatch } from "react-redux";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FormGroup from "@mui/material/FormGroup";
 
 import styles from "./styles.module.css";
+import { AppDispatch } from "../../modules";
+import { authentificate } from "../../modules/users/effects/authentificate";
+
+
 
 export const LoginForm: React.FC = () => {
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
@@ -20,11 +27,14 @@ export const LoginForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log(login, password);
-
-    setLogin("");
-    setPassword("");
+    try {
+      dispatch(authentificate(login, password));      
+      setLogin("");
+      setPassword("");
+    } catch (e){
+      console.log(e);
+    }
+    
   };
 
   return (

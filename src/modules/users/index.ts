@@ -4,32 +4,42 @@ enum Roles {
     admin = 'ROLE_ADMIN',
 }
 
-interface User {
+export interface IUser {
+    id?: number,
     username: string,
     role: Roles,
 }
 
-interface State {
+interface IAuthentificateState {
+    user: IUser,
+    token: string,
+}
+
+export interface IUserState {
     isLoading: boolean,
     isFailed: boolean,
     isLogin: boolean,
     error: string | null,
-    currentUser: User | null,
+    currentUser: IUser | null,
+    token: string | null,
 }
 
-const initialState: State = {
+const initialState: IUserState = {
     isLoading: false,
     isFailed: false,
     isLogin: false,
     error: null,
     currentUser: null,
+    token: null,
 }
-const authentificate: CaseReducer<State, PayloadAction<User>> = (state, { payload }) => {
+const authentificate: CaseReducer<IUserState, PayloadAction<IAuthentificateState>> = (state, { payload }) => {
     return {
         ...state,
         isLoading: false,
         isFailed: false,
-        currentUser: payload,
+        isLogin: true,
+        currentUser: payload.user,
+        token: payload.token,
     }
 }
 
