@@ -1,24 +1,30 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import * as React from 'react'
+
+import { AppDispatch } from '../../modules'
+
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+
+import { userSlice } from "../../modules/users/"
+import { mainRoutes } from "../../modules/browseroutes/routes";
+
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
 
 export const Header: React.FC = () => {
-  const [auth, setAuth] = React.useState<boolean>(true)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const user = useAuth()
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked)
-  };
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -28,20 +34,17 @@ export const Header: React.FC = () => {
     setAnchorEl(null)
   };
 
+  const handleLogin = () => {
+    navigate(mainRoutes.login(), {replace: true})
+  }
+
+  const handleOut = () => {
+    dispatch(userSlice.actions.out())
+    setAnchorEl(null)
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {/*<FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? 'Logout' : 'Login'}
-        />
-        </FormGroup> */ }
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -54,9 +57,10 @@ export const Header: React.FC = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
+            Todo List App
           </Typography>
-          {auth && (
+          { user
+            ? (
             <div>
               <IconButton
                 size="large"
@@ -84,10 +88,15 @@ export const Header: React.FC = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleOut}>Out</MenuItem>
               </Menu>
             </div>
-          )}
+          )
+            : (
+              <>  
+              <MenuItem onClick={handleLogin}>Login</MenuItem>
+              </>
+          ) }
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,4 +1,4 @@
-import { createSlice, CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, CaseReducer, PayloadAction } from "@reduxjs/toolkit"
 
 enum Roles {
     admin = 'ROLE_ADMIN',
@@ -48,18 +48,25 @@ export const userSlice = createSlice({
     initialState: initialState,
     reducers: {
         startLoading: (state) => {
-            state.isLoading = true;
-            state.isFailed = false;
+            state.isLoading = true
+            state.isFailed = false
             
             return state;
         },
         failLoading: (state, { payload: { error } }) => {
-            state.isLoading = false;
-            state.isFailed = true;
-            state.error = error;
+            state.isLoading = false
+            state.isFailed = true
+            state.error = error
 
             return state;
         },
         authentificate,
+        out: (state) => {
+            state.isLogin = false
+            state.token = null
+            state.currentUser = null
+
+            return state
+        }
     }
 })

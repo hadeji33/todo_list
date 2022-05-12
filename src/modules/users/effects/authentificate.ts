@@ -1,9 +1,10 @@
 import { IUser, userSlice } from ".."
 
 import { selectUser } from "../selectors"
-import axios from "../../../api/axios"
+import axios from "../../api/axios"
 import { AppDispatch, RootState } from "../..";
-import { Buffer } from "buffer";
+import { Buffer } from "buffer"
+import { userRoutes } from "../../api/routes"
 
 export function authentificate(userName: string, password: string) {
     return function (dispatch: AppDispatch, getState: RootState) {
@@ -20,7 +21,7 @@ export function authentificate(userName: string, password: string) {
         const encodedToken = Buffer.from(`${userName}:${password}`).toString('base64')
         const result = () => {
             axios.post<IUser>(
-                '/users/authentificate',
+                userRoutes.login(),
                 {},
                 {
                     headers: {
